@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'ms_MY',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +168,11 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
+        App\Providers\Filament\CustomerPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        Spatie\Permission\PermissionServiceProvider::class,
+
     ])->toArray(),
 
     /*

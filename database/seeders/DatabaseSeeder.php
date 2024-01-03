@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\CourtBooking;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(CustomerSeeder::class);
+        $this->call(TypeSeeder::class);
+        $this->call(CourtSeeder::class);
+        $this->call(CourtBookingSeeder::class);
     }
 }
