@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Customer\Resources;
 
-use App\Filament\Resources\CourtResource\Pages;
-use App\Filament\Resources\CourtResource\RelationManagers;
-use App\Filament\Resources\CourtResource\RelationManagers\CourtBookingsRelationManager;
+use App\Filament\Customer\Resources\CourtResource\Pages;
+use App\Filament\Customer\Resources\CourtResource\RelationManagers;
 use App\Models\Court;
-use App\Models\Type;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -22,35 +18,29 @@ class CourtResource extends Resource
     protected static ?string $model = Court::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Select::make('type_id')
-                    ->label('Court Type')
-                    ->options(Type::pluck('name', 'id'))
-                    ->required(),
+                Forms\Components\TextInput::make('type_id')
+                    ->required()
+                    ->numeric(),
                 Forms\Components\TextInput::make('name')
-                    ->label('Court Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                // Forms\Components\Textarea::make('photo_path')
-                //     ->maxLength(65535)
-                //     ->columnSpanFull(),
-
-                FileUpload::make('photo_path')
-                    ->disk('public'),
-
+                Forms\Components\Textarea::make('photo_path')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
                 Forms\Components\TextInput::make('price')
-                    ->label('Price (Per Hour)')
                     ->required()
                     ->numeric()
-                    ->prefix('RM'),
+                    ->prefix('$'),
             ]);
     }
 
@@ -63,6 +53,10 @@ class CourtResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Court Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Description')
+                    ->limit(25)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money('MYR')
@@ -84,7 +78,7 @@ class CourtResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CourtBookingsRelationManager::class,
+            //
         ];
     }
 
