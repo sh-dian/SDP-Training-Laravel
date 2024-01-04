@@ -60,9 +60,7 @@ class CourtBookingResource extends Resource
         $user = auth()->user();
 
         return $table
-            ->query(function () use ($user) {
-                return CourtBooking::where('customer_id', $user->customer->id);
-            })
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('customer_id', $user->customer->id))
             ->columns([
                 Tables\Columns\TextColumn::make('court.name')
                     ->numeric()

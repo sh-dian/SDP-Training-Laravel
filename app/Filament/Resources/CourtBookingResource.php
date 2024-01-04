@@ -29,11 +29,17 @@ class CourtBookingResource extends Resource
 
                 Select::make('court_id')
                     ->label('Court')
-                    ->options(Court::pluck('name', 'id'))
+                    // ->options(Court::pluck('name', 'id'))
+                    ->relationship(name: 'court', titleAttribute: 'name')
+                    ->searchable()
+                    ->preload()
                     ->required(),
 
                 Select::make('customer_id')
-                    ->options(Customer::with('user')->get()->pluck('user.name', 'id'))
+                    // ->options(Customer::with('user')->get()->pluck('user.name', 'id'))
+                    ->relationship(name: 'customer.user', titleAttribute: 'name')
+                    ->searchable()
+                    ->preload()
                     ->required(),
 
                 Forms\Components\TextInput::make('hour')
@@ -42,9 +48,11 @@ class CourtBookingResource extends Resource
                     ->suffix('Hour'),
 
                 Forms\Components\DatePicker::make('date')
+                    ->native(false)
                     ->required(),
 
                 Forms\Components\TimePicker::make('start_time')
+                    ->native(false)
                     ->required(),
 
                 Forms\Components\TextInput::make('total_player')

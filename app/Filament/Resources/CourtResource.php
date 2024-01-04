@@ -29,7 +29,10 @@ class CourtResource extends Resource
             ->schema([
                 Select::make('type_id')
                     ->label('Court Type')
-                    ->options(Type::pluck('name', 'id'))
+                    // ->options(Type::pluck('name', 'id'))
+                    ->relationship(name: 'type', titleAttribute: 'name')
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('name')
                     ->label('Court Name')
